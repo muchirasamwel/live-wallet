@@ -21,7 +21,7 @@ class AccountsController extends Controller
             Log::info('redis data available..');
 
         if (!$allAccounts) {
-            $allAccounts = Accounts::where('balance', '>', 0)->where('balance','<',500)->where('name', '!=', 'name 2')->get();
+            $allAccounts = Accounts::where('name', '!=', 'name 2')->get();
             Log::info('Saving new redis data..');
             Redis::set('allAccounts', $allAccounts, 'EX', (1 * 60));
         }

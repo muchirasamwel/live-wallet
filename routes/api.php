@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\WhenAccountIsUpdated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,3 +20,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::resource('accounts', \App\Http\Controllers\AccountsController::class);
+
+Route::get('/test-broadcast', function (Request $request) {
+    $account = \App\Models\Accounts::all()->first();
+//    dd($account);
+    event(new WhenAccountIsUpdated($account));
+    return response()->json((object)["messages" => "success"]);
+});
